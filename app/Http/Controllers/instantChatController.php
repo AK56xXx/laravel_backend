@@ -6,7 +6,7 @@ use App\Models\Conversation;
 use App\Models\ConvoMessage;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Illuminate\Support\Facades\DB;
 
 class instantChatController extends Controller
 {
@@ -16,43 +16,47 @@ class instantChatController extends Controller
         return response()->json($users, 200);
     }
 
-    public function fetchMessages(User $user)
+    public function fetchMessages(Request $request)
     {
-        $convo = Conversation::where('sender', $user->id)
-                                ->where('receiver', Auth()->user())
+        $convo = DB::table('conversations')->where('sender', $request->input('sender_id'))
+                                ->where('receiver',$request->input('receiver_id'))
                                 ->get();
-        $messages = ConvoMessage::where('convo_id', $convo->id)->get();
-        return response()->json($messages, 200);
+        
+        
+        if ($convo->isNotEmpty()){
+
+            // $messages = DB::table('convo_messages')->where('convo_id', $convo->first()->id)
+            // ->get();
+            // return response()->json($messages, 200);
+            return $convo;
+        }
 
     }
-    public function sendMessage(User $receiver, Request $request)
+    public function sendMessage( Request $request)
     {
-        $sender = Auth()->user();
-        $convo = Conversation::where('sender', $sender)
-                                ->where('receiver', $receiver)
+     
+        $convo = Conversation::where('sender', $request->input('sender_id'))
+                                ->where('receiver', $request->input('receiver_id'))
                                 ->get();
         if($convo->isNotEmpty()){
-            $data=[
-                "message"=>$request->content,
-                "convo_id" =>$convo->first()->id,
-                "attatchment" => $request->attatchemnt
-            ];
-            ConvoMessage::create($data);
+            $message = new ConvoMessage;
+            $message->message = $request->input('message');
+            $message->convo_id = $convo->first()->id;
+            $message->attachment = $request->input('attachment');
+            $message->save();
         }else{
-            $convoData=[
-                "sender"=>$sender->id,
-                "receiver"=>$receiver->id
-            ];
-            Conversation::create($convoData);
-            $convo = Conversation::latest()->first();
-            $data=[
-                "message"=>$request->content,
-                "convo_id" =>$convo->id,
-                "attatchment" => $request->attatchemnt
-            ];
-            ConvoMessage::create($data);
+            
+            $convo = new Conversation;
+            $convo->sender = $request->input('sender_id');
+            $convo->receiver = $request->input('receiver_id');
+            $convo->save();
+            $message = new ConvoMessage;
+            $message->message = $request->input('message');
+            $message->convo_id = $convo->id;
+            $message->attachment = $request->input('attachment');
+            $message->save();
         }
-        $message = ConvoMessage::latest()->first();
+        $message = ConvoMessage::latest();
         return response()->json($message, 201);
 
 

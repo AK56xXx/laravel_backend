@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Meeting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class meetingController extends Controller
 {
     public function index()
     {
         return Meeting::all();
+    }
+    public function meetingsByState(int $etat)
+    {
+        $meetings = DB::table('meetings')->where('accepter', $etat)->get();
+        return response()->json($meetings, 200);
+        
     }
 
     public function show(Meeting $meeting)
@@ -19,14 +26,20 @@ class meetingController extends Controller
 
     public function store(Request $request)
     {
-        $user = $request->user();
-        if($user->tokenCan('admin_privilege'))
-        {$meeting = Meeting::create($request->all());
+        $demandes = DB::table('meetings')
+        ->where('mail',$request->input('mail'))
+        ->where('accepter', '0')
+        ->count();
+        if($demandes==0){
+            $user = $request->user();
+            
+            $meeting = Meeting::create($request->all());
 
-        return response()->json($meeting, 201);}
-        else{
-            return response()->json('unauthorized modification, you do not have access',403);
+            return response()->json($meeting, 201);
+        }else{
+            return response()->json("previous demand not answered yet, you can not send new demands", 403);
         }
+        
     }
 
     public function update(Request $request, Meeting $meeting)
@@ -42,6 +55,7 @@ class meetingController extends Controller
 
         return response()->json(null, 204);
     }
+
 }
 
 

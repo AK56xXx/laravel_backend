@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Stage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class stageController extends Controller
 {
     public function index()
     {
         return Stage::all();
+    }
+
+    public function stagesByState(int $etat)
+    {
+        $stages = DB::table('stages')->where('accepter', $etat)->get();
+        return response()->json($stages, 200);
+        
     }
 
     public function show(Stage $stage)
@@ -19,13 +27,27 @@ class stageController extends Controller
 
     public function store(Request $request)
     {
-        $user = $request->user();
+      /*  $user = $request->user();
         if($user->tokenCan('admin_privilege'))
         {$stage = Stage::create($request->all());
 
         return response()->json($stage, 201);}
         else{
             return response()->json('unauthorized modification, you do not have access',403);
+        }*/
+
+        $demandes = DB::table('stages')
+        ->where('mail',$request->input('mail'))
+        ->where('accepter', '0')
+        ->count();
+        if($demandes==0){
+            $user = $request->user();
+            
+            $stage = Stage::create($request->all());
+
+            return response()->json($stage, 201);
+        }else{
+            return response()->json("previous demand not answered yet, you can not send new demands", 403);
         }
     }
 

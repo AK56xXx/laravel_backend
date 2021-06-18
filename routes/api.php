@@ -11,6 +11,8 @@ use App\Http\Controllers\meetingController;
 use App\Http\Controllers\instantChatController;
 use App\Http\Controllers\visitController;
 use App\Http\Controllers\stageController;
+use App\Http\Controllers\visitReponseController;
+
 use Illuminate\Session\Middleware\AuthenticateSession;
 
 /*
@@ -81,10 +83,14 @@ Route::post('visits/accepter/{visit}',[visitReponseController::class, 'repondre_
 Route::post('visits/refuser/{visit}',[visitReponseController::class, 'repondre_negatif'])->middleware('auth:sanctum');
 
 Route::get('stages/', [stageController::class, 'index']);
+Route::get('stages/{etat}', [meetingController::class, 'stagesByState'])->middleware('auth:sanctum');
 Route::get('stages/{stage}', [stageController::class, 'show']);
 Route::post('stages', [stageController::class, 'store']);
 Route::put('stages/stage}', [stageController::class, 'update']);
 Route::delete('stages/{stage}', [stageController::class, 'delete']);
+
+Route::post('stages/accepter/{stage}',[stageReponseController::class, 'repondre_positif'])->middleware('auth:sanctum');
+Route::post('stages/refuser/{stage}',[stageReponseController::class, 'repondre_negatif'])->middleware('auth:sanctum');
 
 
 Route::get('chat/', [instantChatController::class, 'index']);

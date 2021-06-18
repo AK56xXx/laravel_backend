@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;// ajouter le chemi
 use App\Http\Controllers\actualiteController;
 use App\Http\Controllers\chatMessageController;
 use App\Http\Controllers\meetingReponseController;
+use App\Http\Controllers\meetingController;
 use App\Http\Controllers\instantChatController;
 use App\Http\Controllers\visitController;
 use App\Http\Controllers\stageController;

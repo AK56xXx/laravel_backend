@@ -16,7 +16,7 @@ class stageReponseController extends Controller
             StageReponse::create($request->all());
             $stageReponse = StageReponse::latest();
             $stageReponse->update(['stage_id'=>$stage->id]);
-            $stage->update(['accepter'=> 1]);
+            $stage->update(['accepted'=> 1]);
             $stage->save();
             
             //TODO :  the callback function does not see the $meeting param
@@ -40,7 +40,7 @@ class stageReponseController extends Controller
             StageReponse::create($request->all());
             $stageReponse = StageReponse::latest();
             $stageReponse->update(['stage_id'=>$stage->id]);
-            $stage->update(['accepter'=> 2]);
+            $stage->update(['accepted'=> 2]);
             $stage->save();
             
             //TODO :  the callback function does not see the $meeting param

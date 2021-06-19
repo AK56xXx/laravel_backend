@@ -15,7 +15,7 @@ class stageController extends Controller
 
     public function stagesByState(int $etat)
     {
-        $stages = DB::table('stages')->where('accepter', $etat)->get();
+        $stages = DB::table('stages')->where('accepted', $etat)->get();
         return response()->json($stages, 200);
         
     }
@@ -38,7 +38,7 @@ class stageController extends Controller
 
         $demandes = DB::table('stages')
         ->where('mail',$request->input('mail'))
-        ->where('accepter', '0')
+        ->where('accepted', '0')
         ->count();
         if($demandes==0){
             $user = $request->user();

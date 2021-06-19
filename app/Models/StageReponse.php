@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class StageReponse extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        
+        'date_stage',
+        'stage_id',
+        'content'
+    ];
 }

@@ -12,6 +12,15 @@ use App\Http\Controllers\instantChatController;
 use App\Http\Controllers\visitController;
 use App\Http\Controllers\stageController;
 use App\Http\Controllers\visitReponseController;
+use App\Http\Controllers\stageReponseController;
+use App\Http\Controllers\categorieController;
+use App\Http\Controllers\documentController;
+use App\Http\Controllers\eventController;
+
+
+
+
+
 
 use Illuminate\Session\Middleware\AuthenticateSession;
 
@@ -47,6 +56,17 @@ Route::post('categories', [categorieController::class, 'store']);
 Route::put('categories/{categorie}', [categorieController::class, 'update']);
 Route::delete('categories/{categorie}', [categorieController::class, 'delete']);
 
+Route::get('documents/', [documentController::class, 'index']);
+Route::get('documents/{document}', [documentController::class, 'show']);
+Route::post('documents', [documentController::class, 'store']);
+Route::put('documents/{document}', [documentController::class, 'update']);
+Route::delete('documents/{document}', [documentController::class, 'delete']);
+
+Route::get('evenements/', [eventController::class, 'index']);
+Route::get('evenements/{evenement}', [eventController::class, 'show']);
+Route::post('evenements', [eventController::class, 'store']);
+Route::put('evenements/{evenement}', [eventController::class, 'update']);
+Route::delete('evenements/{evenement}', [eventController::class, 'delete']);
 
 Route::get('actualites/', [actualiteController::class, 'index']);
 Route::get('actualites/{actualite}', [actualiteController::class, 'show']);
@@ -83,7 +103,7 @@ Route::post('visits/accepter/{visit}',[visitReponseController::class, 'repondre_
 Route::post('visits/refuser/{visit}',[visitReponseController::class, 'repondre_negatif'])->middleware('auth:sanctum');
 
 Route::get('stages/', [stageController::class, 'index']);
-Route::get('stages/{etat}', [meetingController::class, 'stagesByState'])->middleware('auth:sanctum');
+Route::get('stages/{etat}', [stageController::class, 'stagesByState'])->middleware('auth:sanctum');
 Route::get('stages/{stage}', [stageController::class, 'show']);
 Route::post('stages', [stageController::class, 'store']);
 Route::put('stages/stage}', [stageController::class, 'update']);
@@ -96,3 +116,7 @@ Route::post('stages/refuser/{stage}',[stageReponseController::class, 'repondre_n
 Route::get('chat/', [instantChatController::class, 'index']);
 Route::post('chat/fetch_messages',[instantChatController::class, 'fetchMessages']);
 Route::post('chat/send_message',[instantChatController::class, 'sendMessage']);
+
+Route::get('/forum', [ChatMessageController::class, 'index']);
+Route::post('/forum', [chatMessageController::class, "send"]);
+

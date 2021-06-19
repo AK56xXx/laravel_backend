@@ -15,7 +15,8 @@ class ChatMessage extends Model
      */
     protected $fillable = [
         'message',
-        'attachmen'
+        'attachment',
+        'sender'
         
     ];
 }

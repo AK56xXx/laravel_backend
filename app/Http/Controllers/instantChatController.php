@@ -25,11 +25,11 @@ class instantChatController extends Controller
         
         if ($convo->isNotEmpty()){
 
-            // $messages = DB::table('convo_messages')->where('convo_id', $convo->first()->id)
-            // ->get();
-            // return response()->json($messages, 200);
-            return $convo;
+             $messages = DB::table('convo_messages')->where('convo_id', $convo->first()->id)
+             ->get();
+             return response()->json($messages, 200);
         }
+        return $convo;
 
     }
     public function sendMessage( Request $request)

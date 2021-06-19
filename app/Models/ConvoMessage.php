@@ -15,7 +15,8 @@ class ConvoMessage extends Model
      */
     protected $fillable = [
         'message',
-        'attachment'
+        'attachment',
+        'convo_id'
         
     ];
 }

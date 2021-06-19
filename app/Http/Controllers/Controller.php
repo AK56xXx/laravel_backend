@@ -12,8 +12,8 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     /** @OA\Info(
         *      version="1.0.0",
-        *      title="L5 OpenApi",
-        *      description="L5 Swagger OpenApi description",
+        *      title="TTH-HUB ",
+        *      description="TTH-HUB OpenApi description",
         *      @OA\Contact(
         *          email=""
         *      ),
@@ -24,55 +24,6 @@ class Controller extends BaseController
         * )
         */
 
-        /**
- * @OA\Get(
- *      path="/actualites",
- *      operationId="getActualitesList",
- *      tags={"Actualites"},
- *      summary="Get list of actualites",
- *      description="Returns list of actualites",
- *      @OA\Parameter(
- *          name="actualite",
- *          description="actualite id",
- *          required=true,
- *          in="path",
- *          @OA\Schema(
- *              type="integer"
- *          )
- *      ),
- *      @OA\Response(
- *          response=200,
- *          description="successful operation"
- *       ),
- *       
- *     )
- *
- * Returns list of actualites
- */
-/** 
-* @OA\Put(
-    *      path="/actualites",
-    *      operationId="getActualitesList",
-    *      tags={"Actualites"},
-    *      summary="modify actualites",
-    *      description="return modified actualite",
-    *      @OA\Parameter(
-    *          name="actualite",
-    *          description="actualite id",
-    *          required=true,
-    *          in="path",
-    *          @OA\Schema(
-    *              type="integer"
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="successful operation"
-    *       ),
-    *       
-    *     )
-    *
-    * Returns list of actualites
-    */
+ 
 
 }

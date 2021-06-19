@@ -7,9 +7,21 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;// ajouter le chemi
 use App\Http\Controllers\actualiteController;
 use App\Http\Controllers\chatMessageController;
 use App\Http\Controllers\meetingReponseController;
+use App\Http\Controllers\meetingController;
 use App\Http\Controllers\instantChatController;
 use App\Http\Controllers\visitController;
 use App\Http\Controllers\stageController;
+use App\Http\Controllers\visitReponseController;
+use App\Http\Controllers\stageReponseController;
+use App\Http\Controllers\categorieController;
+use App\Http\Controllers\documentController;
+use App\Http\Controllers\eventController;
+
+
+
+
+
+
 use Illuminate\Session\Middleware\AuthenticateSession;
 
 /*
@@ -38,6 +50,24 @@ Route::post('propositions', [propositionController::class, 'store']);
 Route::put('propositions/{proposition}', [propositionController::class, 'update']);
 Route::delete('propositions/{proposition}', [propositionController::class, 'delete']);
 
+Route::get('categories/', [categorieController::class, 'index']);
+Route::get('categories/{categorie}', [categorieController::class, 'show']);
+Route::post('categories', [categorieController::class, 'store']);
+Route::put('categories/{categorie}', [categorieController::class, 'update']);
+Route::delete('categories/{categorie}', [categorieController::class, 'delete']);
+
+Route::get('documents/', [documentController::class, 'index']);
+Route::get('documents/{document}', [documentController::class, 'show']);
+Route::post('documents', [documentController::class, 'store']);
+Route::put('documents/{document}', [documentController::class, 'update']);
+Route::delete('documents/{document}', [documentController::class, 'delete']);
+
+Route::get('evenements/', [eventController::class, 'index']);
+Route::get('evenements/{evenement}', [eventController::class, 'show']);
+Route::post('evenements', [eventController::class, 'store']);
+Route::put('evenements/{evenement}', [eventController::class, 'update']);
+Route::delete('evenements/{evenement}', [eventController::class, 'delete']);
+
 Route::get('actualites/', [actualiteController::class, 'index']);
 Route::get('actualites/{actualite}', [actualiteController::class, 'show']);
 Route::post('actualites', [actualiteController::class, 'store']);
@@ -51,28 +81,42 @@ Route::put('chat_messages/{chat_message}', [chatMessageController::class, 'updat
 Route::delete('chat_messages/{chat_message}', [chatMessageController::class, 'delete']);
 
 
-Route::get('meetings/', [meetingController::class, 'index']);
-Route::get('meetings/{meeting}', [meetingController::class, 'show']);
-Route::post('meetings', [meetingController::class, 'store']);
-Route::put('meetings/meeting}', [meetingController::class, 'update']);
-Route::delete('meetings/{meeting}', [meetingController::class, 'delete']);
 
-Route::post('meetings/accepter/{meeting}',[meetingReponseController::class, 'repondre_positif']);
-Route::post('meetings/refuser/{meeting}',[meetingReponseController::class, 'repondre_negatif']);
+Route::get('meetings/', [meetingController::class, 'index'])->middleware('auth:sanctum');
+Route::get('meetings/{etat}', [meetingController::class, 'meetingsByState'])->middleware('auth:sanctum');
+Route::get('meetings/{meeting}', [meetingController::class, 'show'])->middleware('auth:sanctum');
+Route::post('meetings', [meetingController::class, 'store']);
+Route::put('meetings/{meeting}', [meetingController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('meetings/{meeting}', [meetingController::class, 'delete'])->middleware('auth:sanctum');
+
+Route::post('meetings/accepter/{meeting}',[meetingReponseController::class, 'repondre_positif'])->middleware('auth:sanctum');
+Route::post('meetings/refuser/{meeting}',[meetingReponseController::class, 'repondre_negatif'])->middleware('auth:sanctum');
 
 Route::get('visits/', [visitController::class, 'index']);
+Route::get('visits/{etat}', [visitController::class, 'visitsByState'])->middleware('auth:sanctum');
 Route::get('visits/{visit}', [visitController::class, 'show']);
 Route::post('visits', [visitController::class, 'store']);
 Route::put('visits/{visit}', [visitController::class, 'update']);
 Route::delete('visits/{visit}', [visitController::class, 'delete']);
 
+Route::post('visits/accepter/{visit}',[visitReponseController::class, 'repondre_positif'])->middleware('auth:sanctum');
+Route::post('visits/refuser/{visit}',[visitReponseController::class, 'repondre_negatif'])->middleware('auth:sanctum');
+
 Route::get('stages/', [stageController::class, 'index']);
+Route::get('stages/{etat}', [stageController::class, 'stagesByState'])->middleware('auth:sanctum');
 Route::get('stages/{stage}', [stageController::class, 'show']);
 Route::post('stages', [stageController::class, 'store']);
 Route::put('stages/stage}', [stageController::class, 'update']);
 Route::delete('stages/{stage}', [stageController::class, 'delete']);
 
+Route::post('stages/accepter/{stage}',[stageReponseController::class, 'repondre_positif'])->middleware('auth:sanctum');
+Route::post('stages/refuser/{stage}',[stageReponseController::class, 'repondre_negatif'])->middleware('auth:sanctum');
 
-Route::get('api/chat/', [instantChatController::class, 'index']);
-Route::get('api/chat/{user}/messages',[instantChatController::class, 'fetchMessages']);
-Route::post('api/chat/{user}/messages',[instantChatController::class, 'sendMessages']);
+
+Route::get('chat/', [instantChatController::class, 'index']);
+Route::post('chat/fetch_messages',[instantChatController::class, 'fetchMessages']);
+Route::post('chat/send_message',[instantChatController::class, 'sendMessage']);
+
+Route::get('/forum', [ChatMessageController::class, 'index']);
+Route::post('/forum', [chatMessageController::class, "send"]);
+

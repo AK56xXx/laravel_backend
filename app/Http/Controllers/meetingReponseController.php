@@ -16,23 +16,48 @@ class meetingReponseController extends Controller
     */
     public function repondre_positif(Meeting $meeting,Request $request)
     {
+        $user = $request->user();
+        if($user->tokenCan('admin_privilege') || $user->tokenCan('direct_privilege') ){
             MeetingReponse::create($request->all());
-            $meetingReponse = MeetingReponse::latest()->first();
+            $meetingReponse = MeetingReponse::latest();
             $meetingReponse->update(['meeting_id'=>$meeting->id]);
             $meeting->update(['accepter'=> 1]);
             $meeting->save();
+            
             //TODO :  the callback function does not see the $meeting param
             $data = $request->all();
 
             Mail::send('meetingConfirmationMail', $data, function($message) use($meeting) {
                 $message->to($meeting->mail)
                 ->subject('Meeting confirmation');
-                $message->from('tt.corp.tn@gmail.com', 'Tunisie Telecom');
+                $message->from('tt.corp.tn@gmail.com', 'Tunisie Technologie');
              });
-            return response()->json("reponse créer", 201);
+            return response()->json($meetingReponse, 201);
+
+        }
+    
     }
-    public function repondre_negatif(Meeting $meeting)
+    public function repondre_negatif(Meeting $meeting, Request $request)
     {
-        //TODO : send denial email
+
+        $user = $request->user();
+        if($user->tokenCan('admin_privilege') || $user->tokenCan('direct_privilege') ){
+            MeetingReponse::create($request->all());
+            $meetingReponse = MeetingReponse::latest();
+            $meetingReponse->update(['meeting_id'=>$meeting->id]);
+            $meeting->update(['accepter'=> 2]);
+            $meeting->save();
+            
+            //TODO :  the callback function does not see the $meeting param
+            $data = $request->all();
+
+            Mail::send('meetingRejectionMail', $data, function($message) use($meeting) {
+                $message->to($meeting->mail)
+                ->subject('Meeting rejection');
+                $message->from('tt.corp.tn@gmail.com', 'Tunisie Technologie');
+             });
+            return response()->json($meetingReponse, 201);
+
+        }
     }
 }

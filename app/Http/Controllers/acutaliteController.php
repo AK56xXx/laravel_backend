@@ -9,7 +9,8 @@ class actualiteController extends Controller
 {
     public function index()
     {
-        return Actualite::all();
+        $actualites =Actualite::all(); 
+        return response()->json($actualites, 200);
     }
 
     public function show(Actualite $actualite)

@@ -2,5 +2,5 @@ bonjour
 <br>
 {!! $content !!}
 <br>
-date de visit : {!! $date_visite !!}
+date de stage : {!! $date_stage !!}
 Cdt

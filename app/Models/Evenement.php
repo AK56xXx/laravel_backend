@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Document extends Model
+class Evenement extends Model
 {
     use HasFactory;
      /**
@@ -14,8 +14,9 @@ class Document extends Model
      * @var array
      */
     protected $fillable = [
-        'nom',
-        'adresse'
+        'titre',
+        'description',
+        'date'
 
         
     ];

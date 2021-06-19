@@ -69,13 +69,13 @@ class actualiteController extends Controller
     public function store(Request $request)
     {
         $user = $request->user();
-        if($user->tokenCan('admin_privilege'))
+      //  if($user->tokenCan('admin_privilege'))
         {$actualite = Actualite::create($request->all());
 
         return response()->json($actualite, 201);}
-        else{
-            return response()->json('unauthorized modification, you do not have access',403);
-        }
+     //   else{
+           // return response()->json('unauthorized modification, you do not have access',403);
+       // }
     }
     /**       
 * @OA\Put(

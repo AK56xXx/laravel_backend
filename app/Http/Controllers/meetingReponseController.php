@@ -30,7 +30,7 @@ class meetingReponseController extends Controller
             Mail::send('meetingConfirmationMail', $data, function($message) use($meeting) {
                 $message->to($meeting->mail)
                 ->subject('Meeting confirmation');
-                $message->from('tt.corp.tn@gmail.com', 'Tunisie Technologie');
+                $message->from('safwen.benfredj@gmail.com', 'Tunisie Technologie');
              });
             return response()->json($meetingReponse, 201);
 

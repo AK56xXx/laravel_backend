@@ -71,7 +71,7 @@ Route::delete('evenements/{evenement}', [eventController::class, 'delete']);
 Route::get('actualites/', [actualiteController::class, 'index']);
 Route::get('actualites/{actualite}', [actualiteController::class, 'show']);
 Route::post('actualites', [actualiteController::class, 'store']);
-Route::put('actualites/{actualite}', [actualiteController::class, 'update']);
+Route::put('actualites/{actualite}', [actualiteController::class, 'update']); //
 Route::delete('actualites/{actualite}', [actualiteController::class, 'delete']);
 
 Route::get('chat_messages/', [chatMessageController::class, 'index']);

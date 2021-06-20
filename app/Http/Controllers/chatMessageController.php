@@ -38,7 +38,7 @@ class chatMessageController extends Controller
         $message = new ChatMessage;
         $message->message = $request->input('message');
         $message->attachment = $request->input('attachment');
-        $message->sender = $request->input('sender');
+        $message->sender = $request->input('sender_id');
         $message->save();
         return response()->json($message,201);
     }
